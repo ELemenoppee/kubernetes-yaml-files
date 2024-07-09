@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-app-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: laravel-app-demo
+  template:
+    metadata:
+      labels:
+        run: laravel-app-demo
+    spec:
+      containers:
+        - name: laravel-app-demo
+          image: server-ip:5000/laravel-app-demo:replaceImageTag
+          env:
+          - name: APP_KEY
+            value: "base64:cUPmwHx4LXa4Z25HhzFiWCf7TlQmSqnt98pnuiHmzgY="
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "256Mi" # Request 256 megabytes of memory
+              cpu: "250m"     # Request 250 millicores (0.25 cores)
+            limits:
+              memory: "512Mi" # Limit to 512 megabytes of memory
+              cpu: "500m"     # Limit to 500 millicores (0.5 cores)
+      automountServiceAccountToken: false
